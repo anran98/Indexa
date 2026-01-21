@@ -1,0 +1,143 @@
+# Example: Python Monorepo with Multiple Packages
+# 
+# This configuration indexes a Python monorepo structure where:
+# - Each package has its own docs/ folder and source code
+# - Module-level AGENTS.md files document internals
+# - README files exist at multiple levels
+
+sources:
+  # Main framework package
+  - id: core_framework
+    name: "Core Framework"
+    description: "Core library with shared utilities and base classes"
+    root: "C:/Projects/my-monorepo/packages/core"
+    
+    # Multi-adapter: Python source + Markdown docs
+    adapters:
+      - type: python
+        config:
+          chunk_strategy: symbol      # One chunk per class/function
+          include_private: false      # Skip _private symbols
+          include_tests: false        # Skip test files
+      - type: markdown
+    
+    include_globs:
+      - "src/**/*.py"                 # Python source code
+      - "docs/**/*.md"
+      - "README.md"
+      - "**/AGENTS.md"
+    
+    exclude_globs:
+      - "**/__pycache__/**"
+      - "**/venv/**"
+      - "**/.pytest_cache/**"
+      - "**/htmlcov/**"
+      - "**/test_*.py"
+      - "**/*_test.py"
+    
+    entrypoints:
+      - "README.md"
+      - "docs/getting-started.md"
+      - "docs/api.md"
+      - "src/core/__init__.py"
+    
+    tags:
+      - python
+      - core
+      - library
+
+  # API service package
+  - id: api_service
+    name: "API Service"
+    description: "FastAPI-based REST API service"
+    root: "C:/Projects/my-monorepo/packages/api"
+    
+    adapters:
+      - type: python
+        config:
+          chunk_strategy: symbol
+          include_private: false
+      - type: markdown
+    
+    include_globs:
+      - "app/**/*.py"                 # FastAPI application
+      - "docs/**/*.md"
+      - "README.md"
+      - "**/AGENTS.md"
+    
+    exclude_globs:
+      - "**/__pycache__/**"
+      - "**/venv/**"
+      - "**/test_*.py"
+    
+    entrypoints:
+      - "README.md"
+      - "docs/endpoints.md"
+      - "docs/authentication.md"
+      - "app/main.py"
+    
+    tags:
+      - python
+      - fastapi
+      - api
+      - service
+
+  # CLI tool package
+  - id: cli_tool
+    name: "CLI Tool"
+    description: "Command-line interface for the platform"
+    root: "C:/Projects/my-monorepo/packages/cli"
+    
+    adapters:
+      - type: python
+        config:
+          chunk_strategy: module      # Module overview for CLI commands
+          include_private: false
+      - type: markdown
+    
+    include_globs:
+      - "cli/**/*.py"
+      - "docs/**/*.md"
+      - "README.md"
+    
+    exclude_globs:
+      - "**/__pycache__/**"
+      - "**/test_*.py"
+    
+    entrypoints:
+      - "README.md"
+      - "docs/commands.md"
+      - "cli/__main__.py"
+    
+    tags:
+      - python
+      - cli
+      - tool
+
+  # Shared documentation (root level)
+  - id: monorepo_docs
+    name: "Monorepo Documentation"
+    description: "Cross-package documentation and guides"
+    root: "C:/Projects/my-monorepo"
+    
+    adapters:
+      - type: markdown
+    
+    include_globs:
+      - "docs/**/*.md"
+      - "README.md"
+      - "CONTRIBUTING.md"
+      - "CHANGELOG.md"
+    
+    exclude_globs:
+      - "packages/**"  # Don't duplicate package docs
+      - "**/node_modules/**"
+    
+    entrypoints:
+      - "README.md"
+      - "docs/architecture.md"
+      - "CONTRIBUTING.md"
+    
+    tags:
+      - documentation
+      - overview

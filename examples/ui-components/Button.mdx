@@ -1,0 +1,134 @@
+---
+component: Button
+category: Forms
+variants:
+  - IconButton
+  - LoadingButton
+uses:
+  - Spinner
+related:
+  - Link
+  - Anchor
+---
+
+# Button
+
+A flexible button component for user interactions.
+
+## Overview
+
+The Button component is the primary interactive element for triggering actions.
+It supports multiple sizes, variants, and states.
+
+```tsx
+import { Button } from '@mylib/components';
+
+function Example() {
+  return <Button onClick={() => alert('Clicked!')}>Click me</Button>;
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| variant | 'primary' \| 'secondary' \| 'ghost' | 'primary' | Visual style variant |
+| size | 'sm' \| 'md' \| 'lg' | 'md' | Button size |
+| disabled | boolean | false | Disable the button |
+| loading | boolean | false | Show loading spinner |
+| onClick | () => void | - | Click handler |
+| children | ReactNode | - | Button content |
+
+```typescript
+interface ButtonProps {
+  variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  loading?: boolean;
+  onClick?: () => void;
+  children: React.ReactNode;
+}
+```
+
+## Primary Example
+
+The primary variant is the default and should be used for main actions.
+
+```tsx
+<Button variant="primary" onClick={handleSubmit}>
+  Submit Form
+</Button>
+```
+
+## Secondary Example
+
+Use secondary buttons for less prominent actions.
+
+```tsx
+<Button variant="secondary" onClick={handleCancel}>
+  Cancel
+</Button>
+```
+
+## Ghost Example
+
+Ghost buttons are minimal and blend with the background.
+
+```tsx
+<Button variant="ghost" onClick={handleDismiss}>
+  Dismiss
+</Button>
+```
+
+## Loading State
+
+When performing async operations, show a loading state.
+
+```tsx
+<Button loading={isSubmitting} onClick={handleSubmit}>
+  {isSubmitting ? 'Saving...' : 'Save'}
+</Button>
+```
+
+The button automatically displays a `<Spinner />` component when loading.
+
+## Accessibility
+
+- Buttons use the native `<button>` element for proper semantics
+- Disabled buttons have `aria-disabled="true"`
+- Loading buttons have `aria-busy="true"`
+- Always provide meaningful text content or aria-label
+
+### Keyboard Navigation
+
+- `Enter` or `Space` triggers the onClick handler
+- Tab navigation is supported by default
+
+## Styling
+
+Buttons use design tokens for consistent theming:
+
+```css
+.button {
+  --button-bg: var(--color-primary);
+  --button-text: var(--color-on-primary);
+  --button-radius: var(--radius-md);
+}
+```
+
+### Custom Styling
+
+Use className or style props for customization:
+
+```tsx
+<Button className="my-custom-button" style={{ width: '100%' }}>
+  Full Width
+</Button>
+```
+
+## Best Practices
+
+1. **Use appropriate variants**: Primary for main actions, secondary for alternatives
+2. **Show loading states**: Always indicate async operations
+3. **Provide clear labels**: Button text should describe the action
+4. **Maintain consistency**: Use the same size throughout a form

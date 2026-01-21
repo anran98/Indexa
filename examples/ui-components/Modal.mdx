@@ -1,0 +1,157 @@
+---
+component: Modal
+category: Feedback
+uses:
+  - Button
+  - Backdrop
+  - FocusTrap
+related:
+  - Dialog
+  - Drawer
+  - Popover
+---
+
+# Modal
+
+A dialog overlay for focused user interactions.
+
+## Overview
+
+The Modal component displays content in a layer above the main page.
+It's used for confirmations, forms, and important information.
+
+```tsx
+import { Modal, Button } from '@mylib/components';
+
+function Example() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Open Modal</Button>
+      <Modal isOpen={open} onClose={() => setOpen(false)}>
+        <Modal.Header>Confirm Action</Modal.Header>
+        <Modal.Body>Are you sure you want to proceed?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button onClick={handleConfirm}>Confirm</Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| isOpen | boolean | false | Control modal visibility |
+| onClose | () => void | - | Called when modal should close |
+| size | 'sm' \| 'md' \| 'lg' \| 'full' | 'md' | Modal width |
+| closeOnOverlayClick | boolean | true | Close when clicking outside |
+| closeOnEscape | boolean | true | Close on Escape key |
+| children | ReactNode | - | Modal content |
+
+```typescript
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  size?: 'sm' | 'md' | 'lg' | 'full';
+  closeOnOverlayClick?: boolean;
+  closeOnEscape?: boolean;
+  children: React.ReactNode;
+}
+```
+
+## Basic Example
+
+Simple modal with header, body, and footer.
+
+```tsx
+<Modal isOpen={isOpen} onClose={handleClose}>
+  <Modal.Header>Welcome</Modal.Header>
+  <Modal.Body>
+    <p>This is a basic modal example.</p>
+  </Modal.Body>
+  <Modal.Footer>
+    <Button onClick={handleClose}>Got it</Button>
+  </Modal.Footer>
+</Modal>
+```
+
+## Form Example
+
+Modal containing a form with validation.
+
+```tsx
+<Modal isOpen={isOpen} onClose={handleClose} size="lg">
+  <Modal.Header>Edit Profile</Modal.Header>
+  <Modal.Body>
+    <form onSubmit={handleSubmit}>
+      <Input label="Name" value={name} onChange={setName} />
+      <Input label="Email" value={email} onChange={setEmail} />
+    </form>
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={handleClose}>Cancel</Button>
+    <Button type="submit" onClick={handleSubmit}>Save Changes</Button>
+  </Modal.Footer>
+</Modal>
+```
+
+## Accessibility
+
+Modal implements WAI-ARIA dialog pattern:
+
+- Uses `role="dialog"` and `aria-modal="true"`
+- Focus is trapped within the modal using `<FocusTrap>`
+- Escape key closes the modal
+- Focus returns to trigger element on close
+- Uses `<Backdrop>` to indicate content behind is inert
+
+### Screen Reader Announcements
+
+- Modal title should be linked with `aria-labelledby`
+- Descriptions can use `aria-describedby`
+
+```tsx
+<Modal isOpen={isOpen} onClose={handleClose}>
+  <Modal.Header id="modal-title">Delete Item</Modal.Header>
+  <Modal.Body id="modal-desc">
+    This action cannot be undone.
+  </Modal.Body>
+</Modal>
+```
+
+## Styling
+
+Modal uses design tokens for theming:
+
+```css
+.modal {
+  --modal-bg: var(--color-surface);
+  --modal-shadow: var(--shadow-xl);
+  --modal-radius: var(--radius-lg);
+  --modal-padding: var(--spacing-4);
+}
+```
+
+### Size Variants
+
+| Size | Width |
+|------|-------|
+| sm | 400px |
+| md | 600px |
+| lg | 800px |
+| full | 100vw - 32px |
+
+## Best Practices
+
+1. **Use sparingly**: Modals interrupt the user flow
+2. **Clear actions**: Always provide obvious close/confirm actions
+3. **Avoid nesting**: Don't open modals from within modals
+4. **Keep content focused**: One task per modal
+5. **Mobile considerations**: Use appropriate sizes on mobile

@@ -1,0 +1,114 @@
+# Example: Angular Component Library with Compodoc
+#
+# This example shows how to configure Indexa for an Angular library that uses
+# Compodoc for documentation generation. It indexes:
+# - Compodoc documentation.json (API docs, inputs, outputs, methods)
+# - TypeScript source files (component implementations)
+# - HTML templates (component usage patterns)
+# - SCSS stylesheets (styling definitions)
+# - Markdown documentation (guides, READMEs)
+#
+# Prerequisites:
+# 1. Generate Compodoc documentation:
+#    npx @compodoc/compodoc -p tsconfig.lib.json --exportFormat json
+#
+# 2. Adjust paths below to match your project structure
+
+sources:
+  - id: tds_enterprise
+    name: "TDS Enterprise"
+    description: "Angular component library for enterprise applications"
+    root: "/path/to/ng-tds-enterprise"  # Adjust to your path
+    
+    # Multi-adapter configuration (v1.0.0+)
+    # Adapters process files in order; first match wins
+    adapters:
+      # 1. Compodoc adapter: Parse documentation.json
+      - type: compodoc
+        config:
+          json_path: "documentation.json"    # Relative to root
+          include_directives: true           # Index @Directive classes
+          include_services: true             # Index @Injectable services
+          include_pipes: true                # Index @Pipe classes
+          include_modules: false             # Skip @NgModule (usually noisy)
+          include_internal: false            # Skip @internal JSDoc items
+      
+      # 2. Source adapter: Index TypeScript, HTML, SCSS
+      - type: source
+        config:
+          languages:
+            - typescript                     # .ts files
+            - html                           # .html templates
+            - scss                           # .scss stylesheets
+          chunk_strategy: file               # 'file' = one chunk per file
+                                            # 'symbol' = one chunk per class/function
+          link_related_files: true           # Auto-link button.component.ts/html/scss
+          max_file_size: 100000              # Skip files > 100KB
+          include_comments: true             # Index comments
+          include_specs: false               # Skip *.spec.ts test files
+      
+      # 3. Markdown adapter: Standard docs
+      - type: markdown
+    
+    # Files to include (order matters for adapter matching)
+    include_globs:
+      # Compodoc output
+      - "documentation.json"
+      
+      # Library source code
+      - "projects/tds-lib/src/**/*.ts"
+      - "projects/tds-lib/src/**/*.html"
+      - "projects/tds-lib/src/**/*.scss"
+      
+      # Documentation
+      - "docs/**/*.md"
+      - "**/README.md"
+    
+    # Files to exclude
+    exclude_globs:
+      - "**/*.spec.ts"                       # Unit tests
+      - "**/*.stories.ts"                    # Storybook stories
+      - "**/node_modules/**"
+      - "**/.git/**"
+      - "**/dist/**"
+      - "**/coverage/**"
+    
+    # High-value entry points (boosted in search)
+    entrypoints:
+      - "README.md"
+      - "docs/GETTING_STARTED.md"
+      - "docs/CONTRIBUTING.md"
+    
+    # Tags for filtering
+    tags:
+      - angular
+      - typescript
+      - components
+      - enterprise
+      - tds
+
+# Additional source example: Separate documentation site
+# Uncomment if you have a separate docs repo
+#
+#  - id: tds_docs
+#    name: "TDS Documentation"
+#    description: "Developer documentation and guides"
+#    root: "/path/to/tds-docs"
+#    
+#    adapters:
+#      - type: markdown
+#    
+#    include_globs:
+#      - "**/*.md"
+#      - "**/*.mdx"
+#    
+#    exclude_globs:
+#      - "**/node_modules/**"
+#    
+#    entrypoints:
+#      - "README.md"
+#      - "getting-started.md"
+#    
+#    tags:
+#      - documentation
+#      - guides

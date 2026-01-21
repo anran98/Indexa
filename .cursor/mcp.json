@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "indexa": {
+      "command": "python",
+      "args": ["-m", "indexa.server"]
+    }
+  }
+}

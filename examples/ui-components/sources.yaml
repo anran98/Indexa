@@ -1,0 +1,29 @@
+# Example sources.yaml for a UI component library
+# Copy this to config/sources.yaml and adjust paths
+
+sources:
+  - id: ui_components
+    name: "UI Components"
+    description: "Design system component library documentation"
+    root: "./examples/ui-components"  # Adjust to your component docs path
+    
+    # Use component adapter for MDX files with frontmatter
+    adapter: component
+    default_category: "General"
+    
+    include_globs:
+      - "**/*.mdx"
+      - "**/*.md"
+    
+    exclude_globs:
+      - "**/node_modules/**"
+      - "**/.git/**"
+    
+    entrypoints:
+      - "README.md"
+      - "Button.mdx"
+    
+    tags:
+      - components
+      - ui
+      - react

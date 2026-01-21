@@ -1,0 +1,129 @@
+# Example: Python Library/Project
+#
+# This example shows how to configure Indexa for a Python project.
+# The PythonAdapter extracts:
+# - Module docstrings
+# - Class definitions with docstrings
+# - Function/method signatures with type hints
+# - Decorators
+# - Import statements
+#
+# Supports Google, NumPy, and Sphinx docstring formats.
+
+sources:
+  - id: my_python_lib
+    name: "My Python Library"
+    description: "A well-documented Python library"
+    root: "/path/to/my-python-lib"  # Adjust to your path
+    
+    # Multi-adapter configuration
+    adapters:
+      # 1. Python adapter: Parse Python source files
+      - type: python
+        config:
+          chunk_strategy: symbol           # 'file', 'symbol', or 'module'
+                                          # - file: One chunk per .py file
+                                          # - symbol: One chunk per class/function (best for search)
+                                          # - module: Overview + top-level symbols
+          include_private: false           # Skip _private functions/methods
+          include_tests: false             # Skip test_*.py and *_test.py files
+          include_dunder: false            # Skip __dunder__ methods (except __init__)
+      
+      # 2. Markdown adapter: Parse documentation files
+      - type: markdown
+    
+    # Files to include
+    include_globs:
+      - "src/**/*.py"                      # Main source code
+      - "my_lib/**/*.py"                   # Alternative structure
+      - "docs/**/*.md"                     # Documentation
+      - "README.md"
+      - "**/AGENTS.md"
+    
+    # Files to exclude
+    exclude_globs:
+      - "**/__pycache__/**"
+      - "**/venv/**"
+      - "**/.venv/**"
+      - "**/dist/**"
+      - "**/build/**"
+      - "**/*.egg-info/**"
+      - "**/node_modules/**"
+      - "**/.git/**"
+      - "**/test_*.py"                     # Tests (also handled by include_tests config)
+      - "**/*_test.py"
+      - "**/conftest.py"
+    
+    # High-value entry points (boosted in search)
+    entrypoints:
+      - "README.md"
+      - "docs/GETTING_STARTED.md"
+      - "src/my_lib/__init__.py"           # Main module init
+    
+    tags:
+      - python
+      - library
+
+# Example: Django/Flask Web Application
+#
+#  - id: web_app
+#    name: "My Web App"
+#    root: "/path/to/my-web-app"
+#    
+#    adapters:
+#      - type: python
+#        config:
+#          chunk_strategy: symbol
+#          include_private: false
+#      - type: markdown
+#    
+#    include_globs:
+#      - "app/**/*.py"
+#      - "api/**/*.py"
+#      - "models/**/*.py"
+#      - "views/**/*.py"
+#      - "services/**/*.py"
+#      - "docs/**/*.md"
+#      - "README.md"
+#    
+#    exclude_globs:
+#      - "**/migrations/**"              # Django migrations
+#      - "**/tests/**"
+#      - "**/__pycache__/**"
+#      - "**/venv/**"
+#    
+#    tags:
+#      - python
+#      - django
+#      - web
+
+# Example: Data Science / ML Project
+#
+#  - id: ml_project
+#    name: "ML Pipeline"
+#    root: "/path/to/ml-pipeline"
+#    
+#    adapters:
+#      - type: python
+#        config:
+#          chunk_strategy: module         # Module overview is more useful for notebooks
+#          include_private: false
+#      - type: markdown
+#    
+#    include_globs:
+#      - "src/**/*.py"
+#      - "notebooks/**/*.py"              # Converted notebooks
+#      - "models/**/*.py"
+#      - "data/**/*.py"
+#      - "docs/**/*.md"
+#    
+#    exclude_globs:
+#      - "**/__pycache__/**"
+#      - "**/venv/**"
+#      - "**/data/raw/**"                 # Raw data files
+#      - "**/models/checkpoints/**"       # Model checkpoints
+#    
+#    tags:
+#      - python
+#      - machine-learning
+#      - data-science

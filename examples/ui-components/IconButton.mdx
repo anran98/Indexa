@@ -1,0 +1,122 @@
+---
+component: IconButton
+category: Forms
+extends: Button
+uses:
+  - Icon
+  - Tooltip
+related:
+  - Button
+  - ActionMenu
+---
+
+# IconButton
+
+A button variant that displays only an icon.
+
+## Overview
+
+IconButton extends Button to provide a compact, icon-only button.
+Use it for toolbar actions, inline controls, and space-constrained UIs.
+
+```tsx
+import { IconButton } from '@mylib/components';
+import { TrashIcon } from '@mylib/icons';
+
+function Example() {
+  return (
+    <IconButton 
+      icon={<TrashIcon />} 
+      aria-label="Delete item"
+      onClick={handleDelete}
+    />
+  );
+}
+```
+
+## Props
+
+Extends all Button props, plus:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| icon | ReactNode | - | Icon element to display |
+| aria-label | string | - | Required for accessibility |
+| tooltip | string | - | Tooltip text (uses aria-label if not set) |
+
+```typescript
+interface IconButtonProps extends ButtonProps {
+  icon: React.ReactNode;
+  'aria-label': string;
+  tooltip?: string;
+}
+```
+
+## Basic Example
+
+Simple icon button with tooltip.
+
+```tsx
+<IconButton
+  icon={<EditIcon />}
+  aria-label="Edit document"
+  onClick={handleEdit}
+/>
+```
+
+## With Tooltip
+
+Show tooltip on hover using the built-in `<Tooltip>` integration.
+
+```tsx
+<IconButton
+  icon={<CopyIcon />}
+  aria-label="Copy to clipboard"
+  tooltip="Copy to clipboard"
+  onClick={handleCopy}
+/>
+```
+
+## Size Variants
+
+IconButton supports the same sizes as Button:
+
+```tsx
+<IconButton size="sm" icon={<PlusIcon />} aria-label="Add small" />
+<IconButton size="md" icon={<PlusIcon />} aria-label="Add medium" />
+<IconButton size="lg" icon={<PlusIcon />} aria-label="Add large" />
+```
+
+## Accessibility
+
+**Critical**: IconButton requires `aria-label` since there's no visible text.
+
+- Always provide a descriptive `aria-label`
+- Tooltip text is announced as supplementary description
+- Maintains all keyboard behaviors from Button
+
+```tsx
+// Good
+<IconButton icon={<CloseIcon />} aria-label="Close dialog" />
+
+// Bad - missing aria-label
+<IconButton icon={<CloseIcon />} /> // Will throw warning
+```
+
+## Styling
+
+Same design tokens as Button, with icon-specific sizing:
+
+```css
+.icon-button {
+  --icon-button-padding: var(--spacing-2);
+  --icon-button-icon-size: 1.25rem;
+}
+```
+
+## Best Practices
+
+1. **Always include aria-label**: No visible text means screen readers need help
+2. **Use tooltips**: Help sighted users understand the action
+3. **Consistent icon language**: Use the same icon for the same action throughout
+4. **Consider touch targets**: Ensure minimum 44x44px touch area on mobile

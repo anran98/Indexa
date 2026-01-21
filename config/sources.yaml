@@ -1,0 +1,91 @@
+# Documentation sources for Indexa
+# Each source is a repository/project with docs to index
+#
+# IMPORTANT: Update the 'root' paths below to match your local setup.
+# Use absolute paths for best results.
+
+sources:
+  # =============================================================================
+  # DEMO: Indexa indexes itself!
+  # This demonstrates the tool by making its own documentation searchable.
+  # =============================================================================
+  - id: indexa
+    name: "Indexa"
+    description: "MCP server for internal documentation search (this project!)"
+    root: "."  # Current directory (where you cloned Indexa)
+
+    include_globs:
+      - "docs/**/*.md"
+      - "examples/**/*.md"
+      - "examples/**/*.yaml"
+      - "README.md"
+
+    exclude_globs:
+      - "**/.git/**"
+      - "**/data/**"
+      - "**/__pycache__/**"
+
+    entrypoints:
+      - "README.md"
+      - "docs/GETTING_STARTED.md"
+      - "docs/CONFIGURATION.md"
+      - "docs/ARCHITECTURE.md"
+
+    adapters:
+      - markdown
+
+    tags:
+      - mcp
+      - documentation
+      - search
+      - demo
+
+  # =============================================================================
+  # Example: Add your own documentation sources below
+  # =============================================================================
+  # - id: my_project
+  #   name: "My Project"
+  #   description: "Your project documentation"
+  #   root: "/path/to/your/project"
+  #
+  #   include_globs:
+  #     - "docs/**/*.md"
+  #     - "README.md"
+  #
+  #   exclude_globs:
+  #     - "**/node_modules/**"
+  #     - "**/.git/**"
+  #
+  #   adapters:
+  #     - markdown
+  #
+  #   tags:
+  #     - your-tag
+
+  # =============================================================================
+  # UI Components Example - demonstrates the component adapter
+  # =============================================================================
+  - id: ui_components
+    name: "UI Components"
+    description: "Example UI component library documentation"
+    root: "./examples/ui-components"
+
+    adapter: component
+    default_category: "General"
+
+    include_globs:
+      - "**/*.mdx"
+      - "**/*.md"
+
+    exclude_globs:
+      - "**/node_modules/**"
+      - "**/.git/**"
+
+    entrypoints:
+      - "Button.mdx"
+
+    tags:
+      - components
+      - ui
+      - react
+      - example

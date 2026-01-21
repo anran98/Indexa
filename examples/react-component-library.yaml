@@ -1,0 +1,51 @@
+# Example: React Component Library
+#
+# This configuration indexes a React/TypeScript component library with:
+# - Storybook documentation
+# - MDX component docs
+# - README files per component
+
+sources:
+  - id: ui_components
+    name: "UI Component Library"
+    description: "Shared React components with Storybook documentation"
+    root: "C:/Projects/ui-components"
+    
+    include_globs:
+      # Documentation
+      - "docs/**/*.md"
+      - "docs/**/*.mdx"
+      - "README.md"
+      
+      # Component-level docs
+      - "src/components/**/README.md"
+      - "src/components/**/*.mdx"
+      
+      # Storybook stories (often contain usage docs)
+      - "src/**/*.stories.mdx"
+    
+    exclude_globs:
+      - "**/node_modules/**"
+      - "**/.git/**"
+      - "**/dist/**"
+      - "**/build/**"
+      - "**/storybook-static/**"
+      - "**/coverage/**"
+      - "**/*.test.*"
+      - "**/*.spec.*"
+    
+    entrypoints:
+      - "README.md"
+      - "docs/getting-started.mdx"
+      - "docs/theming.mdx"
+      - "docs/accessibility.mdx"
+    
+    adapters:
+      - markdown
+    
+    tags:
+      - react
+      - typescript
+      - components
+      - storybook
+      - frontend

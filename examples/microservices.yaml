@@ -1,0 +1,113 @@
+# Example: Microservices Architecture
+#
+# This configuration indexes documentation across multiple microservices,
+# each in its own repository but cloned locally.
+
+sources:
+  # User Service
+  - id: user_service
+    name: "User Service"
+    description: "Authentication and user management microservice"
+    root: "C:/Projects/services/user-service"
+    
+    include_globs:
+      - "docs/**/*.md"
+      - "README.md"
+      - "api/**/*.md"
+    
+    exclude_globs:
+      - "**/node_modules/**"
+      - "**/.git/**"
+      - "**/vendor/**"
+    
+    entrypoints:
+      - "README.md"
+      - "docs/api.md"
+      - "docs/authentication.md"
+    
+    adapters:
+      - markdown
+    
+    tags:
+      - microservice
+      - auth
+      - user
+
+  # Order Service
+  - id: order_service
+    name: "Order Service"
+    description: "Order processing and fulfillment microservice"
+    root: "C:/Projects/services/order-service"
+    
+    include_globs:
+      - "docs/**/*.md"
+      - "README.md"
+    
+    exclude_globs:
+      - "**/node_modules/**"
+      - "**/.git/**"
+    
+    entrypoints:
+      - "README.md"
+      - "docs/workflows.md"
+    
+    adapters:
+      - markdown
+    
+    tags:
+      - microservice
+      - orders
+      - fulfillment
+
+  # Notification Service
+  - id: notification_service
+    name: "Notification Service"
+    description: "Email, SMS, and push notification service"
+    root: "C:/Projects/services/notification-service"
+    
+    include_globs:
+      - "docs/**/*.md"
+      - "README.md"
+    
+    exclude_globs:
+      - "**/node_modules/**"
+      - "**/.git/**"
+    
+    entrypoints:
+      - "README.md"
+      - "docs/templates.md"
+    
+    adapters:
+      - markdown
+    
+    tags:
+      - microservice
+      - notifications
+      - messaging
+
+  # Shared Infrastructure Docs
+  - id: platform_docs
+    name: "Platform Documentation"
+    description: "Cross-service infrastructure and architecture docs"
+    root: "C:/Projects/platform-docs"
+    
+    include_globs:
+      - "**/*.md"
+    
+    exclude_globs:
+      - "**/.git/**"
+    
+    entrypoints:
+      - "README.md"
+      - "architecture/overview.md"
+      - "deployment/kubernetes.md"
+      - "observability/monitoring.md"
+    
+    adapters:
+      - markdown
+    
+    tags:
+      - platform
+      - infrastructure
+      - architecture
+      - devops

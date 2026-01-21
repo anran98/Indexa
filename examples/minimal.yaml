@@ -1,0 +1,16 @@
+# Example: Minimal Configuration
+#
+# The simplest possible configuration - just index all markdown files
+# in a single project.
+
+sources:
+  - id: my_project
+    name: "My Project"
+    root: "C:/Projects/my-project"
+    
+    include_globs:
+      - "**/*.md"
+    
+    exclude_globs:
+      - "**/node_modules/**"
+      - "**/.git/**"
